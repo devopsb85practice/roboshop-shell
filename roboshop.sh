@@ -7,7 +7,7 @@ DOMAIN_NAME="prasannadevops.online"
 for instance in ${INSTNACES[@]}
 do 
     INSTANCE_ID=$(aws ec2 run-instances --image-id ami-09c813fb71547fc4f --count 1 \ --instance-type t2.micro --security-group-ids sg-0ed01617e03501426 --tag-specifications "ResourceType=instance,Tags=[{Key=Name,Value=$instance}]" --query "Instances[0].InstanceId" --Output text)	
-    if [$instance -ne "frontend"]
+    if [$instance != "frontend"]
     then
         IP=aws ec2 describe-instances --instance-ids $INSTANCE_ID --query "Reservations[0].
         Instances[0].PrivateIpAddress" --output text
