@@ -32,8 +32,8 @@ dnf module enable nodejs:20 -y &>>$LOG_FILE
 VALIDATE $? "enabling nodejs"
 dnf install nodejs -y &>>$LOG_FILE
 VALIDATE $? "installing nodejs"
-useradd --system --home /app --shell /sbin/nologin --comment "roboshop system user" roboshop
-VALIDATE $? "creating roboshop user"
+# useradd --system --home /app --shell /sbin/nologin --comment "roboshop system user" roboshop
+# VALIDATE $? "creating roboshop user"
 mkdir /app 
 curl -o /tmp/catalogue.zip https://roboshop-artifacts.s3.amazonaws.com/catalogue-v3.zip &>>$LOG_FILE
 VALIDATE $? "downloading the catalogue.zip"
