@@ -43,8 +43,8 @@ VALIDATE $? "downloading the frontend.zip file"
 cd /usr/share/nginx/html 
 unzip /tmp/frontend.zip &>>$LOG_FILE
 VALIDATE $? "unzipping the files"
-rm /etc/nginx/nginx.conf
-VALIDATE $? "replacing the nginx confifuration file"
+# rm /etc/nginx/nginx.conf
+# VALIDATE $? "replacing the nginx confifuration file"
 cp $SCRIPT_DIR/nginx.conf /etc/nginx/nginx.conf &>>$LOG_FILE
 VALIDATE $? "copying the nginx configuration file to the location"
 systemctl restart nginx &>>$LOG_FILE
