@@ -27,7 +27,7 @@ else
 fi
 }
 dnf module disable nodejs -y &>>$LOG_FILE
-VALIDATE $? "diabling nodejs"
+VALIDATE $? "disabling nodejs"
 dnf module enable nodejs:20 -y &>>$LOG_FILE
 VALIDATE $? "enabling nodejs"
 dnf install nodejs -y &>>$LOG_FILE
@@ -54,5 +54,5 @@ cp $SCRIPT_DIR/mongo.repo /etc/yum.repos.d/mongo.repo &>>$LOG_FILE
 VALIDATE $? "copying the mongo repo file"
 dnf install mongodb-mongosh -y &>>$LOG_FILE
 VALIDATE $? "installing the mongodb client"
-mongosh --host mongodb.prasannadevops.online </app/db/master-data.js
+mongosh --host mongodb.prasannadevops.online </app/db/master-data.js &>>$LOG_FILE
 VALIDATE $? "loading data into mongodb"
