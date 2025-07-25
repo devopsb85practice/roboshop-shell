@@ -26,26 +26,26 @@ else
     exit 1
 fi
 }
-dnf module disable nginx -y &&>>$LOG_FILE
+dnf module disable nginx -y &>>$LOG_FILE
 VALIDATE $? "disabling nginx"
-dnf module enable nginx:1.24 -y &&>>$LOG_FILE
+dnf module enable nginx:1.24 -y &>>$LOG_FILE
 VALIDATE $? "enabling nginx 24 version"
-dnf install nginx -y &&>>$LOG_FILE
+dnf install nginx -y &>>$LOG_FILE
 VALIDATE $? "installing nginx"
-systemctl enable nginx &&>>$LOG_FILE
+systemctl enable nginx &>>$LOG_FILE
 VALIDATE $? "enabling nginx service"
-systemctl start nginx &&>>$LOG_FILE
+systemctl start nginx &>>$LOG_FILE
 VALIDATE $? "starting nginx"
-rm -rf /usr/share/nginx/html/* &&>>$LOG_FILE
+rm -rf /usr/share/nginx/html/* &>>$LOG_FILE
 VALIDATE "removing the default files"
-curl -o /tmp/frontend.zip https://roboshop-artifacts.s3.amazonaws.com/frontend-v3.zip &&>>$LOG_FILE
+curl -o /tmp/frontend.zip https://roboshop-artifacts.s3.amazonaws.com/frontend-v3.zip &>>$LOG_FILE
 VALIDATE $? "downloading the frontend.zip file"
 cd /usr/share/nginx/html 
-unzip /tmp/frontend.zip &&>>$LOG_FILE
+unzip /tmp/frontend.zip &>>$LOG_FILE
 VALIDATE $? "unzipping the files"
-cp $SCRIPT_DIR/nginx.conf /etc/nginx/nginx.conf &&>>$LOG_FILE
+cp $SCRIPT_DIR/nginx.conf /etc/nginx/nginx.conf &>>$LOG_FILE
 VALIDATE $? "copying the nginx configuration file to the location"
-systemctl restart nginx &&>>$LOG_FILE
+systemctl restart nginx &>>$LOG_FILE
 VALIDATE $? "restarting the nginx"
 
 
