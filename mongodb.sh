@@ -12,6 +12,7 @@ echo "script started executing at $(date)"| tee -a $LOG_FILE
 if [ "$USERID" -ne 0 ]
 then   
     echo -e "$R you are not running with root access, please run with root access $N" | tee -a $LOG_FILE
+    exit 1
 else
     echo -e "$G you are running with root access $N" | tee -a $LOG_FILE
 fi
