@@ -22,8 +22,8 @@ then
 else
     echo -e "$2 is $R failure $N" | tee -a $LOG_FILE
     exit 1
-}
 fi
+}
 cp mongo.repo /etc/yum.repos.d/mongo.repo &>>$LOG_FILE
 VALIDATE $? "cppying the repo file" 
 dnf install mongodb-org -y &>>$LOG_FILE
