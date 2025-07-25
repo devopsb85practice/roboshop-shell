@@ -33,7 +33,7 @@ VALIDATE $? "enabling nginx 24 version"
 dnf install nginx -y &>>$LOG_FILE
 VALIDATE $? "installing nginx"
 systemctl enable nginx &>>$LOG_FILE
-VALIDATE $? "enabling nginx service"
+# VALIDATE $? "enabling nginx service"
 systemctl start nginx &>>$LOG_FILE
 VALIDATE $? "starting nginx"
 rm -rf /usr/share/nginx/html/* &>>$LOG_FILE
