@@ -50,9 +50,9 @@ systemctl enable catalogue &>>$LOG_FILE
 VALIDATE $? "enabling catalogue"
 systemctl start catalogue&>>$LOG_FILE
 VALIDATE $? "starting the catalogue service"
-# cp mongo.repo /etc/yum.repos.d/mongo.repo &>>$LOG_FILE
-# VALIDATE $? "copying the mongo repo file"
-# dnf install mongodb-mongosh -y &>>$LOG_FILE
-# VALIDATE $? "installing the mongodb client"
-# mongosh --host mongodb.prasannadevops.online </app/db/master-data.js
-# VALIDATE $? ""
+cp $SCRIPT_DIR/mongo.repo /etc/yum.repos.d/mongo.repo &>>$LOG_FILE
+VALIDATE $? "copying the mongo repo file"
+dnf install mongodb-mongosh -y &>>$LOG_FILE
+VALIDATE $? "installing the mongodb client"
+mongosh --host mongodb.prasannadevops.online </app/db/master-data.js
+VALIDATE $? "loading data into mongodb"
