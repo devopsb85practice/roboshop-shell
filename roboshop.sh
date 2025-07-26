@@ -14,7 +14,7 @@ do
         IP=$(aws ec2 describe-instances --instance-ids $INSTANCE_ID --query "Reservations[0].Instances[0].PublicIpAddress" --output text)
     fi
     echo "$instance IP address: $IP"
-    aws route53 change-resource-record-sets \
+    aws route53 change-resource-record-sets \ &>>$LOG_FILE
     --hosted-zone-id $ZONE_ID \
     --change-batch '
     {
