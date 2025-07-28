@@ -40,22 +40,21 @@ else
     echo "User roboshop already exists  $Y SKIPPING $N"
 fi
 
-rm -rf /app &>>$LOG_FILE
-mkdir /app &>>$LOG_FILE
-curl -o /tmp/cart.zip https://roboshop-artifacts.s3.amazonaws.com/cart-v3.zip &>>$LOG_FILE
-VALIDATE $? "downloading the cart.zip"
+rm -rf /app
+mkdir /app 
+curl -o /tmp/user.zip https://roboshop-artifacts.s3.amazonaws.com/user-v3.zip &>>$LOG_FILE
+VALIDATE $? "downloading the user.zip"
 
-cd /app &>>$LOG_FILE
-unzip /tmp/cart.zip &>>$LOG_FILE
+cd /app 
+unzip /tmp/user.zip &>>$LOG_FILE
 VALIDATE $? "unzipping the files"
 npm install &>>$LOG_FILE
 VALIDATE $? "installing dependencies"
-cp $SCRIPT_DIR/cart.service /etc/systemd/system/cart.service &>>$LOG_FILE
-VALIDATE $? "copying the cart service"
+cp $SCRIPT_DIR/user.service /etc/systemd/system/user.service
 systemctl daemon-reload &>>$LOG_FILE
-VALIDATE $? "daemon reloading the cart service"
-systemctl enable cart &>>$LOG_FILE
-VALIDATE $? "enabling cart"
-systemctl start cart &>>$LOG_FILE
-VALIDATE $? "starting the cart service"
+VALIDATE $? "daemon reloading the user service"
+systemctl enable user &>>$LOG_FILE
+VALIDATE $? "enabling user"
+systemctl start user &>>$LOG_FILE
+VALIDATE $? "starting the user service"
 
