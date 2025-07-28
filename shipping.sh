@@ -26,12 +26,13 @@ else
     exit 1
 fi
 }
-dnf install maven -y
+dnf install maven -y &>>$LOG_FILE
 VALIDATE $? "installing maven " &>>$LOG_FILE
-id roboshop
+id roboshop &>>$LOG_FILE
 if [ $? -ne 0 ]
 then
     useradd --system --home /app --shell /sbin/nologin --comment "roboshop system user" roboshop
+    VALIDATE $? "creating user roboshop"
 else
     echo "user already exists"
 fi
@@ -46,7 +47,7 @@ cd /app
 mvn clean package &>>$LOG_FILE
 VALIDATE $? "cleaning package"
 mv target/shipping-1.0.jar shipping.jar &>>$LOG_FILE
-VALIDATE "moving the file"
+VALIDATE $? "moving the file"
 cp $SCRIPT_DIR/shipping.service /etc/systemd/system/shipping.service &>>$LOG_FILE
 VALIDATE $? "copying the shipping service file"
 systemctl daemon-reload &>>$LOG_FILE

@@ -32,10 +32,11 @@ dnf module enable nodejs:20 -y &>>$LOG_FILE
 VALIDATE $? "enabling nodejs"
 dnf install nodejs -y &>>$LOG_FILE
 VALIDATE $? "installing nodejs"
-id roboshop
+id roboshop &>>$sLOG_FILE
 if [ $? -ne 0 ]
 then
     useradd --system --home /app --shell /sbin/nologin --comment "roboshop system user" roboshop
+    VALIDATE $? "ceating the user roboshop"
 else
     echo "User roboshop already exists  $Y SKIPPING $N"
 fi
