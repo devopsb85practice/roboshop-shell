@@ -26,6 +26,7 @@ else
     exit 1
 fi
 }
+
 dnf install maven -y &>>$LOG_FILE
 VALIDATE $? "installing maven " &>>$LOG_FILE
 id roboshop &>>$LOG_FILE
@@ -36,10 +37,12 @@ then
 else
     echo "user already exists"
 fi
-rm -rf /app &>>$LOG_FILE
-mkdir /app &>>$LOG_FILE
+
+
+mkdir -p /app &>>$LOG_FILE
 curl -L -o /tmp/shipping.zip https://roboshop-artifacts.s3.amazonaws.com/shipping-v3.zip &>>$LOG_FILE
 VALIDATE $? "downloading the shipping"
+rm -rf /app/*
 cd /app &>>$LOG_FILE
 unzip /tmp/shipping.zip &>>$LOG_FILE
 VALIDATE $? "unzipping the shipping"
