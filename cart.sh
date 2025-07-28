@@ -39,27 +39,23 @@ then
 else
     echo "User roboshop already exists  $Y SKIPPING $N"
 fi
-
 rm -rf /app
 mkdir /app 
-curl -o /tmp/catalogue.zip https://roboshop-artifacts.s3.amazonaws.com/catalogue-v3.zip &>>$LOG_FILE
-VALIDATE $? "downloading the catalogue.zip"
-
+curl -L -o /tmp/user.zip https://roboshop-artifacts.s3.amazonaws.com/user-v3.zip 
+VALIDATE $? "downloading user.zip"
 cd /app 
-unzip /tmp/catalogue.zip &>>$LOG_FILE
-VALIDATE $? "unzipping the files"
-npm install &>>$LOG_FILE
-VALIDATE $? "installing dependencies"
-cp $SCRIPT_DIR/catalogue.service /etc/systemd/system/catalogue.service
-systemctl daemon-reload &>>$LOG_FILE
-VALIDATE $? "daemon reloading the service"
-systemctl enable catalogue &>>$LOG_FILE
-VALIDATE $? "enabling catalogue"
-systemctl start catalogue&>>$LOG_FILE
-VALIDATE $? "starting the catalogue service"
-cp $SCRIPT_DIR/mongo.repo /etc/yum.repos.d/mongo.repo &>>$LOG_FILE
-VALIDATE $? "copying the mongo repo file"
-dnf install mongodb-mongosh -y &>>$LOG_FILE
-VALIDATE $? "installing the mongodb client"
-mongosh --host mongodb.prasannadevops.online </app/db/master-data.js &>>$LOG_FILE
-VALIDATE $? "loading data into mongodb"
+unzip /tmp/user.zip
+VALIDATE $? "unzipping user.zip"
+npm install
+VALIDATE $? "installing nodejs dependencies"
+
+cp $SCRIPT_DIR/cart.sh /etc/systemd/system/user.service
+VALIDATE $? "copying the user.service file"
+systemctl daemon-reload
+VALIDATE $? "daemon-reloading the user.service"
+systemctl enable user
+VALIDATE $? "enabling user" 
+systemctl start user
+VALIDATE $? "starting user"
+
+
