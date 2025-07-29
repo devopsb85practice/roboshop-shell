@@ -26,6 +26,8 @@ else
     exit 1
 fi
 }
+echo "please enter root password to setup"
+read -s MYSQL_ROOT_PASSWORD
 
 dnf install maven -y &>>$LOG_FILE
 VALIDATE $? "installing maven " &>>$LOG_FILE
@@ -61,11 +63,17 @@ systemctl start shipping &>>$LOG_FILE
 VALIDATE $? "starting shipping service"
 dnf install mysql -y &>>$LOG_FILE
 VALIDATE $? "installing my sql"
-mysql -h mysql.prasannadevops.online -uroot -pRoboShop@1 < /app/db/schema.sql &>>$LOG_FILE
-VALIDATE $? "loading the schema"
-mysql -h mysql.prasannadevops.online -uroot -pRoboShop@1 < /app/db/app-user.sql &>>$LOG_FILE
-VALIDATE $? "creating user"
-mysql -h mysql.prasannadevops.online -uroot -pRoboShop@1 < /app/db/master-data.sql &>>$LOG_FILE
-VALIDATE $? "loading the master data"
+mysql -h mysql.prasannadevops.online -u root -p$MYSQL_ROOT_PASSWORD -e 'use cities'
+if [ $? -ne 0 ]
+then
+    mysql -h mysql.prasannadevops.online -uroot -p$MYSQL_ROOT_PASSWORD < /app/db/schema.sql &>>$LOG_FILE
+    VALIDATE $? "loading the schema"
+    mysql -h mysql.prasannadevops.online -uroot -p$MYSQL_ROOT_PASSWORD < /app/db/app-user.sql &>>$LOG_FILE
+    VALIDATE $? "creating user"
+    mysql -h mysql.prasannadevops.online -uroot -p$MYSQL_ROOT_PASSWORD < /app/db/master-data.sql &>>$LOG_FILE
+    VALIDATE $? "loading the master data"
+else 
+    echo "data already loaded into mysql ....$G skipping $N"
+fi
 systemctl restart shipping &>>$LOG_FILE
 VALIDATE $? "restarting shipping service"

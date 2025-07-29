@@ -16,6 +16,10 @@ then
 else
     echo -e "$G you are running with root access $N" | tee -a $LOG_FILE
 fi
+
+echo "Please enter root password to setup"
+read -s MYSQL_ROOT_PASSWORD
+
 VALIDATE(){
 if [ "$1" -eq 0 ]
 then
@@ -25,11 +29,11 @@ else
     exit 1
 fi
 }
-dnf install mysql-server -y
+dnf install mysql-server -y &>>$LOG_FILE
 VALIDATE $? "installing my sql server"
-systemctl enable mysqld
+systemctl enable mysqld &>>$LOG_FILE
 VALIDATE $? "enabling mysql d"
-systemctl start mysqld  
+systemctl start mysqld &>>$LOG_FILE
 VALIDATE $? "starting mysqld"
-mysql_secure_installation --set-root-pass RoboShop@1
+mysql_secure_installation --set-root-pass $MYSQL_ROOT_PASSWORD &>>$LOG_FILE
 VALIDATE $? "setting the password"
